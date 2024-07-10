@@ -7,3 +7,7 @@
 
 
 An implementation of a Music generator through Generative Adversarial network, for the final project of the course Neural Networks and Deep Learning of the Master's Degree in Physics of Data at University of Padua.    
+
+
+# Colab
+https://colab.research.google.com/drive/1NxnRuCYbRpArP8SL1hcNEdD0vydRMM3f?usp=sharing
