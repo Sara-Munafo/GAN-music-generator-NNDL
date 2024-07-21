@@ -10,7 +10,8 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 
 # Colab
-[https://colab.research.google.com/drive/17DRrQ64dsI0mifP1u6vIdDDTFq1JB8Zf?usp=sharing](https://colab.research.google.com/drive/1eJlzcA6c7mojFwE7OJd4nvfUaoA-5KTs?usp=sharing)
+[https://colab.research.google.com/drive/17DRrQ64dsI0mifP1u6vIdDDTFq1JB8Zf?usp=sharing](https://colab.research.google.com/drive/1eJlzcA6c7mojFwE7OJd4nvfUaoA-5KTs?usp=sharing)    
+
 [https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing](https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing)
 
 # Overleaf report
