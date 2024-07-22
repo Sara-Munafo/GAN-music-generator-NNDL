@@ -10,9 +10,10 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 
 # Colab
-old: [https://colab.research.google.com/drive/17DRrQ64dsI0mifP1u6vIdDDTFq1JB8Zf?usp=sharing](https://colab.research.google.com/drive/1eJlzcA6c7mojFwE7OJd4nvfUaoA-5KTs?usp=sharing)    
+old version not working: [https://colab.research.google.com/drive/17DRrQ64dsI0mifP1u6vIdDDTFq1JB8Zf?usp=sharing](https://colab.research.google.com/drive/1eJlzcA6c7mojFwE7OJd4nvfUaoA-5KTs?usp=sharing)    
 
-medium: [https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing](https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing)
+old version + from tensor to midi: [https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing](https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing)
 
+con adattamento a 16 beats per bar: https://colab.research.google.com/drive/1EYGU1iSsgXA7P88fKza-njO8uE4TvzVL?usp=sharing
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
