@@ -19,5 +19,8 @@ con adattamento a 16 beats per bar: https://colab.research.google.com/drive/1EYG
 con VAE 
 https://colab.research.google.com/drive/1iwV3B2Ad98STDmjJPjHhACAalj21I_Jo?usp=sharing
 
+VAE aknowlegements
+https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
+
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
