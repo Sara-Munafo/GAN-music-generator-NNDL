@@ -1,14 +1,29 @@
 import mido
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 import os
 import shutil
 import pretty_midi
 from collections import Counter
 from mido import MidiFile, MidiTrack, Message
 
+
+
+#####################################################################################
+               #  Get melodies and select tempo + remove corrupted files
+#####################################################################################
+
 def search_melodies(path):
-    
+    """
+    Searches for songs that have a 'MELODY' (monophonic) track, and non-zero total time
+
+    Parameters:
+    path: path locating the MIDI file
+ 
+    Returns:
+    has_melody: 1 if the track has melody and non-zero duration, 0 otherwise
+    """
     has_melody = 0
     
     try:
@@ -46,8 +61,22 @@ def search_melodies(path):
     
     
     
-#Function to select tracks with specific ticks per beat and tempo
-def select_tempo(tpb, tempo_num, tempo_den):
+
+def select_tempo(paths, tpb, tempo_num, tempo_den, metadata):
+    """
+    Selects track with specific tempo and ticks per beat
+    
+    Parameters:
+    tpb (int): desired ticks per beat
+    tempo_num (int): Desired numerator for the tempo
+    tempo_den (int): Desired denominator for the tempo
+    metadata (list): [n_songs x 3] list, for each song: ticks per beat, metamessage, current time
+
+    Returns:
+    indexes_ (list): indexes of paths corresponding to tracks satisfying the criteria
+    selected_paths (list) : paths of tracks satisfying the criteria
+    selected_meta (list) : metadata of selected midi files
+    """
     # select 384 ticks per beat and 4/4 tempo
     indexes_ = []
     selected_meta = []
@@ -57,14 +86,29 @@ def select_tempo(tpb, tempo_num, tempo_den):
             for msg in metadata[i][1]:
                 if msg.type == 'time_signature' and msg.numerator == tempo_num and msg.denominator == tempo_den:
                     indexes_.append(i)
-                    selected_paths.append(paths_new[i])
+                    selected_paths.append(paths[i])
                     selected_meta.append(metadata[i])
                     break  # Exit the inner loop once a matching time_signature is found
     return(indexes_, selected_paths, selected_meta)
+  
+  
+  
     
     
-    # Function to read MIDI file and extract note events in ticks
+# Function to read MIDI file and extract note events in ticks
 def extract_note_events(path, track_name):
+    """
+    Extract note events from tracks
+    
+    Parameters:
+    path (str): path to the collection of midi files
+    track_name (str): name of the track to select ('MELODY')
+
+    Returns:
+    events (list): sequence of notes (0-128) played 
+    current_time (list) : cumulative time (in ticks) at which each note is played 
+  
+    """
     midi_file = mido.MidiFile(path)
     events = []
     current_time = 0
@@ -83,7 +127,7 @@ def extract_note_events(path, track_name):
 
 def unpack_notes(notes, max_time):
     """
-    Unpacks note events into a continuous time series representation.
+    Unpacks note events into a continuous time series representation (one note per tick)
 
     Parameters:
     notes (ndarray): Array of note events with columns [time, note, event_type]
@@ -125,6 +169,15 @@ def unpack_notes(notes, max_time):
 
 
 def most_frequent(arr):
+    """
+    Select most frequent note in the time-step (note_length ticks) considered
+    
+    Parameters:
+    arr (ndarray): note_length-dimensional array of notes (0-128)
+
+    Returns:
+    most_common[0][0] (int): note (0-128)
+    """
     # Count the frequency of each number in the array
     counter = Counter(arr)
 
@@ -136,18 +189,13 @@ def most_frequent(arr):
 
 
 
-def extract_melody_track(path):
-    midi = MidiFile(path)
-
-    for track in midi.tracks:
-        if track.name=='MELODY':
-            new_midi = track
-    return new_midi
     
     
     
-    
-    
+#####################################################################################
+               #  Select a subset of octaves
+#####################################################################################    
+####### Below, keys to perform selection of two octaves if needed #################
     
 C_key = [0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120]
 Cs_key = [1, 13, 25, 37, 49, 61, 73, 85, 97, 109, 121]
@@ -177,6 +225,15 @@ As_restrict = [70, 82]
 B_restrict = [71, 83]
 
 def rescale(note):
+    """
+    Rescale note into the closest note of the same key belonging to the selected octaves
+    
+    Parameters:
+    note (int): note in the (0-128) range
+
+    Returns:
+    note (int): note in the restricted octave
+    """
     
     if note in C_key:
         note = min(C_restrict, key=lambda x: abs(x - note))
@@ -210,8 +267,179 @@ def rescale(note):
     
     
     
+#####################################################################################
+               #  Data augmentation strategies
+#####################################################################################
+
+def transpose(restrict, song):
+    """
+    Transpose melody of a number of semitones
     
-def formatting(midi_paths, tpb, tempo, npb, n_bars):
+    Parameters:
+    restrict (bool): specifies if the input melody is restricted to two octaves or not;
+                     If TRUE: all notes are transposed of one octave (up or down) so that they still
+                     lie in the restricted octaves.
+                     If FALSE: all notes are transposed of a random number of semitones (up to ± one octave)
+
+    Returns:
+    np.array(transposed): new transposed melody, shape [1,n_bars,npb,128]
+    """
+    
+    if restrict:     
+        transposed = []
+        for i,note in enumerate(song):
+            if note in C_restrict:
+                note = max(C_restrict, key=lambda x: abs(x - note))
+            elif note in Cs_restrict:
+                note = max(Cs_restrict, key=lambda x: abs(x - note))
+            elif note in D_restrict:
+                note = max(D_restrict, key=lambda x: abs(x - note))
+            elif note in Ds_restrict:
+                note = max(Ds_restrict, key=lambda x: abs(x - note))
+            elif note in E_restrict:
+                note = max(E_restrict, key=lambda x: abs(x - note))
+            elif note in F_restrict:
+                note = max(F_restrict, key=lambda x: abs(x - note))
+            elif note in Fs_restrict:
+                note = max(Fs_restrict, key=lambda x: abs(x - note))
+            elif note in G_key:
+                note = max(G_restrict, key=lambda x: abs(x - note))
+            elif note in Gs_restrict:
+                note = max(Gs_restrict, key=lambda x: abs(x - note))
+            elif note in A_key:
+                note = max(A_restrict, key=lambda x: abs(x - note))
+            elif note in As_restrict:
+                note = max(As_restrict, key=lambda x: abs(x - note))
+            elif note in B_restrict:
+                note = max(B_restrict, key=lambda x: abs(x - note))
+
+            transposed.append(note)
+    else:
+        transpose_range = 12  # Transpose within ±12 semitones
+        semitones = random.randint(-transpose_range, transpose_range)
+
+        transposed = [max(0, min(127, note + semitones)) for note in song]
+        
+    return(np.array(transposed))
+    
+    
+    
+    
+def rotate(shift_range, song):
+    """
+    Rotate melody of a given number of places
+    
+    Parameters:
+    shift_range (int): specifies range of possible number of places to shift the melody
+    Returns:
+    np.array(rotated): new rotated melody, shape [1,n_bars,npb,128]
+    """
+
+    # Generate a random shift within the specified range
+    shift = random.randint(-shift_range, shift_range)
+
+    # Apply the shift to the sequence
+    rotated = np.concatenate((song[-shift:],song[:-shift]),axis=0)
+    
+    return(np.array(rotated))
+    
+    
+    
+    
+def augmented_data(restrict,shift_range, n_aug, song, n_bars, npb):
+    """
+    Augments dataset, adding variations to one data melody at a time
+    
+    Parameters:
+    restrict (bool): specifies if the input melody is restricted to two octaves or not
+    shift_range (int): specifies range of possible number of places to shift the melody
+    n_aug (int): specifies how many variations of the melody to create 
+    song (ndarray): 2-D array of shape [n_bars x npb] sequence of notes 
+    n_bars (int): number of bars per song
+    npb (int): number of notes per bar
+
+    Returns:
+    augmented (ndarray): 3-D array of shape shape [1+n_aug,n_bars,npb] with original song + its variations
+    """
+    
+    song = np.array(song)  #shape n_bars x npb
+    augmented = song
+    song = song.reshape(n_bars*npb,) #unwrap song into a list of notes, not divided by bars
+
+    for i in range(int(n_aug/2)):
+        transposed = transpose(restrict, song)
+        transposed = transposed.reshape(n_bars,npb)
+        augmented = np.concatenate((augmented,transposed), axis=0)
+    for i in range(n_aug-int(n_aug/2)):
+        rotated = rotate(shift_range, song)
+        rotated = transposed.reshape(n_bars,npb)
+        augmented = np.concatenate((augmented,rotated),axis=0)
+    
+    augmented = augmented.reshape(n_aug+1, n_bars, npb)
+        
+    return(augmented)
+    
+    
+    
+    
+    
+########################################################################
+             # One hot encoding + final formatting function
+########################################################################
+
+def one_hot_encoding(n_bars, npb, augmented, final_data):
+    """
+    Encodes each note (int in 0-128) into a one-hot encoded 1-D array of shape 128
+    
+    Parameters:
+    n_bars (int): number of bars per song
+    npb (int): number of notes per bar
+    augmented (ndarray): 3-D array of shape shape [1+n_aug,n_bars,npb] with original song + its variations
+    final_data (list): originally empty list; at each iteration, the new one-hot encoded version of each song
+                       (4-D array of shape [1,n_bars,npb,128]) is appended.
+    """
+    
+    
+    for i in range(augmented.shape[0]):
+        note_bars = np.zeros((int(n_bars),int(npb),128)) #array for storing one-hot enc. notes per song
+        song = augmented[i,:,:]
+        for j in range(augmented.shape[1]):
+            bar = song[j,:]
+            for k in range(augmented.shape[2]):
+                note = bar[k]
+                if note!=None :
+                    note_bars[j,k,int(note)] = 1  #assign one to the corresponding note
+        final_data.append(note_bars)
+    
+    
+    
+    
+    
+    
+    
+def formatting(midi_paths, tpb, tempo, npb, n_bars, restrict, shift_range, n_aug):
+    """
+    Starting from uncorrupted midi_files, for each midi:
+    - Extracts and unpacks note events;
+    - Divides note events into bars;
+    - Divides bars into time-steps (depending on the number of npb chosen);
+    - Augments dataset;
+    - Formats note events into one-hot encoding array
+    
+    Parameters:
+    midi_paths (list): list of paths of uncorrupted midi files
+    tpb (int): ticks per beat, used to define length of a bar in ticks
+    tempo (int): tempo, used to define length of a bar in ticks
+    npb (int): notes per bar
+    n_bars (int): number of bars per song
+    restrict (bool): specifies if songs need to be restricted to two octaves
+    shift_range (int): specifies range of possible number of places to shift the melody
+    n_aug (int): specifies how many variations of the melody to create 
+
+    Returns:
+    np.array(final_data): 4-D array of shape [(len(midi_paths)*(n_aug+1)),n_bars,npb,128] of augmented formatted 
+                          dataset
+    """
 
     dataset = []
 
@@ -222,8 +450,7 @@ def formatting(midi_paths, tpb, tempo, npb, n_bars):
 
     
     # double check badly formatted files
-    icount = 0 
-
+    final_data = []
     # Process each MIDI file
     for iters,midi_file in enumerate(midi_paths):
 
@@ -234,10 +461,6 @@ def formatting(midi_paths, tpb, tempo, npb, n_bars):
         notes,max_time = extract_note_events(midi_file, track_name='MELODY')
         notes = np.array(notes)
 
-        if (notes.shape[0]==0):
-            icount +=1
-            continue
-
         # unpacks notes into a continuous time series representation.
         notes_unpacked = unpack_notes(notes, max_time)
         notes_unpacked = notes_unpacked[:nps] #cut each note list to obtain same size for everyone
@@ -245,26 +468,35 @@ def formatting(midi_paths, tpb, tempo, npb, n_bars):
         # create bars
         bars = []
         for j in range(0,(notes_unpacked.shape[0]-1),bar_length):
-            bars.append(notes_unpacked[j:j+bar_length])
+            bars.append(notes_unpacked[j:j+bar_length])            #shape 8xmax_time (notes x bars in ticks)
+        
 
         n_bars = len(bars)
-        note_bars = np.zeros((int(n_bars),int(npb),128))  #notes divided by bar, shape 8x16x128
-        note_bars_list = []
+        note_bars = np.zeros((int(n_bars),int(npb),128))  #notes divided by bar, one-hot encoded, shape 8x16x128
+        song_notes = []
+        
 
         for i in range(0,len(bars)):
             bar = bars[i]
-            notes_list = []
+            bar_notes = []
             for t,j in enumerate(range(1,len(bar)-1,note_length)):
                 timestep_bar = bar[j:j+note_length]
-                note = rescale(most_frequent(timestep_bar))   #most frequent note in the timestep, ignoring silence, rescaled to 2 octaves
-                notes_list.append(note)
+                note = most_frequent(timestep_bar)
+                if restrict:
+                   note = rescale(note)   #most frequent note in the timestep, ignoring silence, rescaled to 2 octaves
+                bar_notes.append(note)   #notes in a bar (16)
+                
+             
+            song_notes.append(bar_notes)  #notes in a song
+            
+                      
+        ### DATA AUGMENTATION ###
+        song_notes = np.array(song_notes)
+        augmented = augmented_data(restrict ,shift_range, n_aug, song_notes, n_bars, npb, )
+        
+        one_hot_encoding(n_bars, npb, augmented,final_data)
 
-                if note!=None :
-                    note_bars[i,t,int(note)] = 1  #assign one to the corresponding note
-            note_bars_list.append(notes_list)
-
-        dataset.append(note_bars)
         if iters%500==0:
-            print(iters,'/',len(midi_files),' midis processed successfully.\n')
-    return dataset
+            print(iters,'/',len(midi_paths),' midis processed successfully.\n')
+    return(np.array(final_data))
 
