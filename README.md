@@ -22,5 +22,8 @@ https://colab.research.google.com/drive/1iwV3B2Ad98STDmjJPjHhACAalj21I_Jo?usp=sh
 VAE aknowlegements
 https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
 
+Con Augmentation    
+https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sharing
+
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
