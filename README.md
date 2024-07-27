@@ -28,5 +28,7 @@ https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sh
 Con dataloader    
 https://colab.research.google.com/drive/1zCN-tfdmLndyMss8H1dky4oxOAyRXnEE?usp=sharing
 
+Senza dataloader sistemato : https://colab.research.google.com/drive/1BpGHDIbp43b54daYCPwvgXh6CP7cTYUa?authuser=0#scrollTo=U9EbrIUPn44P
+
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
