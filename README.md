@@ -10,10 +10,6 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 
 # Colab
-old version not working: [https://colab.research.google.com/drive/17DRrQ64dsI0mifP1u6vIdDDTFq1JB8Zf?usp=sharing](https://colab.research.google.com/drive/1eJlzcA6c7mojFwE7OJd4nvfUaoA-5KTs?usp=sharing)    
-
-old version + from tensor to midi: [https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing](https://colab.research.google.com/drive/1s4sdRSEFaT7VErz7TjAnIT49UtqF2qjM?usp=sharing)
-
 con adattamento a 16 beats per bar: https://colab.research.google.com/drive/1EYGU1iSsgXA7P88fKza-njO8uE4TvzVL?usp=sharing
 
 con VAE 
@@ -25,10 +21,7 @@ https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
 Con Augmentation    
 https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sharing
 
-Con dataloader    
-https://colab.research.google.com/drive/1zCN-tfdmLndyMss8H1dky4oxOAyRXnEE?usp=sharing
-
-Senza dataloader sistemato : https://colab.research.google.com/drive/1BpGHDIbp43b54daYCPwvgXh6CP7cTYUa?authuser=0#scrollTo=U9EbrIUPn44P
+sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0IHkW2erDdzCnXcM3L?usp=sharing
 
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
