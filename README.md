@@ -25,5 +25,8 @@ https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
 Con Augmentation    
 https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sharing
 
+Con dataloader    
+https://colab.research.google.com/drive/1zCN-tfdmLndyMss8H1dky4oxOAyRXnEE?usp=sharing
+
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
