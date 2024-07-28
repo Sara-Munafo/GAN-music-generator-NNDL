@@ -33,7 +33,9 @@ https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sh
 
 sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0IHkW2erDdzCnXcM3L?usp=sharing
 
-last version with lr : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing
+last version with lr : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
+
+tentativi fallimentari : https://colab.research.google.com/drive/1BjWN_4Um4xi4yT7G79zSWt08TxSHvJ8y?usp=sharing
 
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
