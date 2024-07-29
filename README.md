@@ -10,11 +10,9 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 # To-Do List
 - [ ] Change lrD and lrG and keep track of the tests
-- [ ] Print all the loss values and tune feature matching params
-- [ ] Implement the 3 evaluation metrics
-- [ ] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN)
+- [ ] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318)
+- [ ] Implement the evaluation metrics
 - [ ] tune hyperparameters: batch sizes, number of D vs G updates in training, and network architectures
-- [ ] Avoid Mode Collapse: Use techniques like unrolled GANs to address mode collapse
 - [ ] Spectral Normalization: Normalize the weights of the discriminator using spectral normalization to enforce the Lipschitz constraint.
 - [ ] Historical Averaging: Penalize the network parameters by the distance from historical averages
 - [ ] Minimize Wasserstein Loss: Wasserstein GANs (WGANs) use a different loss function that provides better gradients for training.
