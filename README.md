@@ -33,7 +33,7 @@ sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0
 
 last version with lr : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
 
-tentativi fallimentari : https://colab.research.google.com/drive/1BjWN_4Um4xi4yT7G79zSWt08TxSHvJ8y?usp=sharing
+Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83jNjbKey?usp=sharing
 
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
