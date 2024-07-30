@@ -9,13 +9,12 @@
 An implementation of a Music generator through Generative Adversarial network, for the final project of the course Neural Networks and Deep Learning of the Master's Degree in Physics of Data at University of Padua.    
 
 # To-Do List
-- [ ] Change lrD and lrG and keep track of the tests
 - [ ] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318)
-- [ ] Implement the evaluation metrics
-- [ ] tune hyperparameters: batch sizes, number of D vs G updates in training, and network architectures
+- [ ] Implement the evaluation metric 1 + 2
+- [ ] add the one hot encoding at the end of the G
+- [ ] tune hyperparameters: lr, batch sizes, number of D vs G updates in training, and network architectures
+    
 - [ ] Spectral Normalization: Normalize the weights of the discriminator using spectral normalization to enforce the Lipschitz constraint.
-- [ ] Historical Averaging: Penalize the network parameters by the distance from historical averages
-- [ ] Minimize Wasserstein Loss: Wasserstein GANs (WGANs) use a different loss function that provides better gradients for training.
 
 # Colab
 con adattamento a 16 beats per bar: https://colab.research.google.com/drive/1EYGU1iSsgXA7P88fKza-njO8uE4TvzVL?usp=sharing
