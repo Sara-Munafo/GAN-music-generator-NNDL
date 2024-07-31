@@ -32,9 +32,13 @@ https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sh
 
 sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0IHkW2erDdzCnXcM3L?usp=sharing
 
-last version with lr : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
-
 Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83jNjbKey?usp=sharing
+
+
+last version : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
+
+autoencoder work in progress: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
+
 
 # Overleaf report
 https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
