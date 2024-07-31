@@ -9,10 +9,9 @@
 An implementation of a Music generator through Generative Adversarial network, for the final project of the course Neural Networks and Deep Learning of the Master's Degree in Physics of Data at University of Padua.    
 
 # To-Do List
-- [ ] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318)
+- [x] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318)
 - [ ] Implement the evaluation metric 1 + 2
-- [ ] usare generator trained (not nampling!) on test data
-- [ ] add the one hot encoding at the end of the G
+- [x] add the one hot encoding at the end of the G
 - [x] add inversion of a song with certain prob
 - [ ] tune hyperparameters: lr, batch sizes, number of D vs G updates in training, and network architectures
     
@@ -36,7 +35,9 @@ Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83j
 
 ---
 
-last version : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
+last version : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing        
+
+reorganized version with functions: https://colab.research.google.com/drive/1GvLjvIDQEiXQOgar9xK86bMKjOgfCbmW?usp=sharing&authuser=1#scrollTo=wtQLW2b-u9E8    
 
 --- 
 
