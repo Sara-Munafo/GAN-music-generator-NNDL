@@ -271,7 +271,7 @@ def rescale(note):
                #  Data augmentation strategies
 #####################################################################################
 
-def transpose(restrict, song):
+def transpose(restrict, song, semitones):
     """
     Transpose melody of a number of semitones
     
@@ -315,9 +315,6 @@ def transpose(restrict, song):
 
             transposed.append(note)
     else:
-        transpose_range = 12  # Transpose within ±12 semitones
-        semitones = random.randint(-transpose_range, transpose_range)
-
         transposed = [max(0, min(127, note + semitones)) for note in song]
         
     return(np.array(transposed))
@@ -325,7 +322,7 @@ def transpose(restrict, song):
     
     
     
-def rotate(shift_range, song):
+def rotate(shift, song):
     """
     Rotate melody of a given number of places
     
@@ -334,25 +331,29 @@ def rotate(shift_range, song):
     Returns:
     np.array(rotated): new rotated melody, shape [1,n_bars,npb,128]
     """
-
-    # Generate a random shift within the specified range
-    shift = random.randint(-shift_range, shift_range)
-
     # Apply the shift to the sequence
     rotated = np.concatenate((song[-shift:],song[:-shift]),axis=0)
     
     return(np.array(rotated))
     
     
+
+def random_invert_song(song):
+
+    # Circularly rotate the notes within the selected song along the axis of the bars
+    inverted_song = np.flip(selected_song, axis=0)
+    
+    return inverted_song
     
     
-def augmented_data(restrict,shift_range, n_aug, song, n_bars, npb):
+    
+    
+def augmented_data(restrict, n_aug, song, n_bars, npb):
     """
     Augments dataset, adding variations to one data melody at a time
     
     Parameters:
     restrict (bool): specifies if the input melody is restricted to two octaves or not
-    shift_range (int): specifies range of possible number of places to shift the melody
     n_aug (int): specifies how many variations of the melody to create 
     song (ndarray): 2-D array of shape [n_bars x npb] sequence of notes 
     n_bars (int): number of bars per song
@@ -365,17 +366,42 @@ def augmented_data(restrict,shift_range, n_aug, song, n_bars, npb):
     song = np.array(song)  #shape n_bars x npb
     augmented = song
     song = song.reshape(n_bars*npb,) #unwrap song into a list of notes, not divided by bars
+    
+    #number of rotation and transpositions
+    n_transposed = int(n_aug/2)
+    n_rotated = n_aug-n_transposed
+    
+    
+    # Poissible semitones to transpose of
+    semitones_list = list(range(-12,12))  # Transpose within ±12 semitones
+    selected_semitones = random.sample(semitones_list, n_transposed)
 
-    for i in range(int(n_aug/2)):
-        transposed = transpose(restrict, song)
-        transposed = transposed.reshape(n_bars,npb)
+    
+    # Possible shifts for the rotation
+    shifts_list = list(range(8, 120, 8))
+    selected_shifts = random.sample(shifts_list, n_rotated)
+
+    for i in range(n_transposed):
+        semitones = selected_semitones[i]
+        transposed = transpose(restrict, song, semitones).reshape(n_bars,npb)
         augmented = np.concatenate((augmented,transposed), axis=0)
-    for i in range(n_aug-int(n_aug/2)):
-        rotated = rotate(shift_range, song)
-        rotated = transposed.reshape(n_bars,npb)
+        
+    for j in range(n_rotated):
+        shift = selected_shifts[j]
+        rotated = rotate(shift, song).reshape(n_bars,npb)
         augmented = np.concatenate((augmented,rotated),axis=0)
     
     augmented = augmented.reshape(n_aug+1, n_bars, npb)
+    
+    # Add randomness: invert the whole song with a certain probability
+    #r = random.random()
+    #dim = 0
+    #if r<p_inv:
+    	#dim = 1
+        #inverted = random_invert_song(song)
+    	#augmented = np.concatenate((augmented,inverted),axis=0)
+        
+    #augmented = augmented.reshape(n_aug+1+dim, n_bars, npb)
         
     return(augmented)
     
@@ -492,7 +518,7 @@ def formatting(midi_paths, tpb, tempo, npb, n_bars, restrict, shift_range, n_aug
                       
         ### DATA AUGMENTATION ###
         song_notes = np.array(song_notes)
-        augmented = augmented_data(restrict ,shift_range, n_aug, song_notes, n_bars, npb, )
+        augmented = augmented_data(restrict, n_aug, song_notes, n_bars, npb)
         
         one_hot_encoding(n_bars, npb, augmented,final_data)
 
