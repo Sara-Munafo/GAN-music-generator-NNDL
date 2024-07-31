@@ -34,10 +34,15 @@ sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0
 
 Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83jNjbKey?usp=sharing
 
+---
 
 last version : https://colab.research.google.com/drive/1azyECFzRPYUf0Ex_zrMQx1oll2eQKxU4?usp=sharing    
 
+--- 
+
 autoencoder work in progress: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
+- [ ] add noise
+- [ ] try on data of the GAN and on the real samples + clustered img
 
 
 # Overleaf report
