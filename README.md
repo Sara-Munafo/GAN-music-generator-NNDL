@@ -42,7 +42,8 @@ reorganized version with functions: https://colab.research.google.com/drive/1GvL
 --- 
 
 autoencoder work in progress: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
-- [ ] add noise
+- [x] add noise
+- [x] recontruction loss function
 - [ ] try on data of the GAN and on the real samples + clustered img
 
 
