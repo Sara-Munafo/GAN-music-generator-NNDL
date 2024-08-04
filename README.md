@@ -28,7 +28,7 @@ https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
 
 Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83jNjbKey?usp=sharing
 
-COMPLETE with libraries (autoenc_model.py, gan_model.py) : https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
+**COMPLETE with libraries (autoenc_model.py, gan_model.py)** : https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
 
 ---
 
