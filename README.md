@@ -10,10 +10,10 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 # To-Do List
 - [x] Self attention mechanism (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318)
-- [ ] Implement the evaluation metric 1 + 2
+- [x] Implement the evaluation metric 1 + 2
 - [x] add the one hot encoding at the end of the G
 - [x] add inversion of a song with certain prob
-- [ ] tune hyperparameters: lr, batch sizes, number of D vs G updates in training, and network architectures
+- [ ] tune hyperparameters: lr, batch sizes, number of D vs G updates in training, and network architectures 
     
 - [ ] Spectral Normalization: Normalize the weights of the discriminator using spectral normalization to enforce the Lipschitz constraint.
 
@@ -26,12 +26,9 @@ https://colab.research.google.com/drive/1iwV3B2Ad98STDmjJPjHhACAalj21I_Jo?usp=sh
 VAE aknowlegements
 https://github.com/search?q=repo%3ASashaMalysheva/Pytorch-VAE%20name&type=code
 
-Con Augmentation    
-https://colab.research.google.com/drive/1T9ps_vxQM4YXZTjN4wCv5uT3_qOHgutE?usp=sharing
-
-sistemato con sampling: https://colab.research.google.com/drive/1jHcNqrZMhFjROF0IHkW2erDdzCnXcM3L?usp=sharing
-
 Per Jacopo : https://colab.research.google.com/drive/1lo0VK5TcagdNWtC6xFh-A3F83jNjbKey?usp=sharing
+
+COMPLETE with libraries (autoenc_model.py, gan_model.py) : https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
 
 ---
 
