@@ -460,6 +460,8 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
   D_G_z_list = []
 
   kl_list = [] 
+  real_pch_list = []
+  gen_pch_list = [] 
 
   batch_songs = int(batch_size / 8)  # songs per batch: 9 if batch_size=72, 4 if batch_size=32
   data_max = int(dataset.shape[0] / batch_songs)  # max division of train dataset by batch_songs
@@ -586,6 +588,8 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
         avg_gen_pch = np.mean(list_gen_pch, axis=0)
         kl = kl_divergence(avg_real_pch, avg_gen_pch, epsilon)
       else:
+        avg_real_pch = None
+        avg_gen_pch = None
         kl = None
 
       if epoch % 2 == 0:
@@ -601,7 +605,11 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
       lossG_list.append(average_lossG)
       D_x_list.append(average_D_x)
       D_G_z_list.append(average_D_G_z)
+      
       kl_list.append(kl)
+      real_pch_list.append(avg_real_pch)
+      gen_pch_list.append(avg_gen_pch)
+      
 
       #print('==> Epoch: {} Average lossD: {:.10f} average_lossG: {:.10f},average D(x): {:.10f},average D(G(z)): {:.10f} '.format(
         #epoch, average_lossD, average_lossG, average_D_x, average_D_G_z))
@@ -613,7 +621,10 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
       np.save('D_x_list.npy', D_x_list)
       np.save('D_G_z_list.npy', D_G_z_list)
 
-      np.save('kl_list.npy',kl_list)
+      # Save pch results
+      np.save('kl_train.npy',kl_list)
+      np.save('real_pch_train.npy', real_pch_list)
+      np.save('gen_pch_train.npy', gen_pch_list)
 
       # do checkpointing
       torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % ('../models', epoch))
@@ -699,6 +710,9 @@ def testing(nz, test_data, state_dict, attention, device, epsilon, pch):
     avg_real_pch = np.mean(list_real_pch, axis=0)
     avg_gen_pch = np.mean(list_gen_pch, axis=0)
     kl = kl_divergence(avg_real_pch, avg_gen_pch, epsilon)
+    np.save('real_pch_test.npy', avg_real_pch)
+    np.save('gen_pch_test.npy', avg_gen_pch)
+    np.save('kl_test.npy', kl)
 
   
   print('Testing completed, songs created: {}'.format(len(output_songs)))

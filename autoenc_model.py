@@ -181,12 +181,12 @@ def get_latent_vectors(dataset, batch_size, model, device):
       model (nn.module) : trained model
     Returns:
       latent_vectors (ndarray) : latent representation of dataset
-      encoded_vectors *ndarray) : encoded dataset
+      decoded_vectors (ndarray) : decoded dataset
     
   '''
 
   latent_vectors = []
-  encoded_vectors = []
+  decoded_vectors = []
 
   batch_songs = int(batch_size / 8)  # songs per batch: 9 if batch_size=72, 4 if batch_size=32
   data_max = int(dataset.shape[0] / batch_songs)  # max division of train dataset by batch_songs
@@ -195,13 +195,13 @@ def get_latent_vectors(dataset, batch_size, model, device):
       for d_count in range(0, data_max + 1, batch_songs):  # step
           x = dataset[(d_count):(batch_songs + d_count), :, :, :]
           x = torch.from_numpy(x).view(batch_size, 1, 16, 128).to(device).float()
-          z, encoded = model(x)
+          z, decoded = model(x)
           latent_vectors.append(z.cpu().numpy())
-          encoded_vectors.append(encoded.cpu().numpy())
+          decoded_vectors.append(decoded.cpu().numpy())
 
   latent_vectors = np.concatenate(latent_vectors, axis=0)
-  encoded_vectors = np.concatenate(encoded_vectors, axis = 0)
-  return(latent_vectors, encoded)
+  decoded_vectors = np.concatenate(decoded_vectors, axis = 0)
+  return(latent_vectors, decoded_vectors)
 
 
 
