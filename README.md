@@ -11,7 +11,7 @@ An implementation of a Music generator through Generative Adversarial network, f
 # To-Do List
 - [ ] tune hyperparameters: lr, lambda, self att si/no (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318);
 - [ ] vedere se la seconda metrica da risultatai decenti graficamente;
-- [ ] provare a fare recontruction loss anche con il training dataset;
+- [x] provare a fare recontruction loss anche con il training dataset;
 - [ ] grafici pch;
 
 # Colab
