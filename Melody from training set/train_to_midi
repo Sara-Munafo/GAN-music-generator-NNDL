@@ -1,0 +1,3 @@
+song1= train_data[int(np.random.uniform()*train_data.shape[0]),:,:,:]
+output_path = 'melody_train_7.midi'
+midi1 = tensor_to_midi(song1, output_path)
