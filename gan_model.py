@@ -307,7 +307,8 @@ def compute_pch(song):
     pch (ndarray) : array with frequency of each pitch (12x1)
   '''
   pch = np.zeros(12)
-  for i_bar in range(0,8):
+  n_bars = song.shape[0]
+  for i_bar in range(0,n_bars):
       for i_note in range(0,16):
           note = np.where(song[i_bar,i_note,:]==1)[0]
           pitch_class = note % 12  #remainder, indicates one of the 12 possible pitches
@@ -316,7 +317,7 @@ def compute_pch(song):
   return pch
     
 
-def pch_metric(gen_dataset, real_dataset, epsilon, list_real, list_gen):
+def pch_metric(gen_dataset, real_dataset, epsilon, lists, is_train):
   '''
   Computes pch for a batch of data
   
@@ -324,26 +325,44 @@ def pch_metric(gen_dataset, real_dataset, epsilon, list_real, list_gen):
     gen_dataset (ndarray) : generated songs
     real_dataset (ndarray/torch.tensor) : original songs from train or test set
     epsilon (float) : constant for computing kl
-    list_real, list_gen (lists) : lists to append pch results
+    lists (list of lists) : lists to append pch results (2 for training, 4 for testing)
+    is_train (bool) : determines how the pch is computed if we are in the training or testing phase
   '''
+  n_songs = real_dataset.shape[0]
+  n_bars = real_dataset.shape[1]
+  
+  for i in range(n_songs):
+      if type(real_dataset)==torch.Tensor:
+        real_song = real_dataset[i,:,:,:].view(8,16,128).cpu().detach().numpy()
+      else:
+        real_song = real_dataset[i,:,:,:].reshape(8,16,128)
 
-  for i in range(real_dataset.shape[0]):
-    #if (i % 1000)==0:
-      #print('Pch evaluated -----> [%d/%d]' % (i, real_dataset.shape[0]))
-    if type(real_dataset)==torch.Tensor:
-      real_song = real_dataset[i,:,:,:].view(8,16,128).cpu().detach().numpy()
-    else:
-      real_song = real_dataset[i,:,:,:].reshape(8,16,128)
+      gen_song = gen_dataset[i,:,:,:].view(8,16,128).cpu().detach().numpy()
+      
+  if is_train:
+      # Compute metrics
+      real_pch = compute_pch(real_song)   #12x1 array
+      gen_pch = compute_pch(gen_song)     #12x1 array
 
-    gen_song = gen_dataset[i,:,:,:].view(8,16,128).cpu().detach().numpy()
+      lists[0].append(real_pch)
+      lists[1].append(gen_pch)
+  else:
+      # divide songs in first half and second half
+      h1_real = real_song[:4,:,:]
+      h2_real = real_song[4:,:,:]
+      h1_gen = gen_song[:4,:,:]
+      h2_gen = gen_song[4:,:,:]
+      
+      #Compute metrics separately for first half (closer to the real seed bar) and second half
+      real_pch_1 = compute_pch(h1_real)   #12x1 array
+      real_pch_2 = compute_pch(h2_real)   #12x1 array
+      gen_pch_1 = compute_pch(h1_gen)     #12x1 array
+      gen_pch_2 = compute_pch(h2_gen)     #12x1 array
 
-    # Compute metrics
-    real_pch = compute_pch(real_song)   #12x1 array
-    gen_pch = compute_pch(gen_song)     #12x1 array
-
-    list_real.append(real_pch)
-    list_gen.append(gen_pch)
-
+      lists[0].append(real_pch_1)
+      lists[1].append(gen_pch_1)
+      lists[2].append(real_pch_2)
+      lists[3].append(gen_pch_2)
         
         
         
@@ -426,6 +445,7 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
   '''
 
   pitch_range = 128
+  is_train = True
 
   print('Starting training \n')
 
@@ -459,9 +479,10 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
   D_x_list = []
   D_G_z_list = []
 
+  # Lists for pch average computing and kullback-leibler divergence
   kl_list = [] 
-  real_pch_list = []
-  gen_pch_list = [] 
+  real_pch_avg_list = []
+  gen_pch_avg_list = []
 
   batch_songs = int(batch_size / 8)  # songs per batch: 9 if batch_size=72, 4 if batch_size=32
   data_max = int(dataset.shape[0] / batch_songs)  # max division of train dataset by batch_songs
@@ -469,9 +490,11 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
   for epoch in range(epochs):
 
       torch.cuda.empty_cache()  # empty cache for memory
-
+      
+      #lists to store pch values for the epoch
       list_real_pch = []
       list_gen_pch = []
+      lists = [list_real_pch,list_gen_pch]
 
       sum_lossD = 0
       sum_lossG = 0
@@ -575,7 +598,7 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
             # append pch for the minibatch
             gen_song = fake_.view(batch_songs,8,16,128)
             real_song = curr_x.view(batch_songs,8,16,128)
-            pch_metric(gen_song, real_song, epsilon, list_real_pch, list_gen_pch)
+            pch_metric(gen_song, real_song, epsilon, lists, is_train)
 
 
 
@@ -592,9 +615,11 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
         avg_gen_pch = None
         kl = None
 
-      if epoch % 2 == 0:
-          print('[%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f Kullback-Leibler: %.4f'
-                % (epoch, epochs, errD, errG, D_x, D_G_z1, D_G_z2, kl))
+      #if epoch % 2 == 0:
+          #print('[%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f Kullback-Leibler: %.4f'
+                #% (epoch, epochs, errD, errG, D_x, D_G_z1, D_G_z2, kl))
+      if epoch % 10 == 0:
+          print('Epoch ----> [%d/%d]' %(epoch, epochs))
 
       average_lossD = (sum_lossD / int(dataset.shape[0]))
       average_lossG = (sum_lossG / int(dataset.shape[0]))
@@ -607,8 +632,8 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
       D_G_z_list.append(average_D_G_z)
       
       kl_list.append(kl)
-      real_pch_list.append(avg_real_pch)
-      gen_pch_list.append(avg_gen_pch)
+      real_pch_avg_list.append(avg_real_pch)
+      gen_pch_avg_list.append(avg_gen_pch)
       
 
       #print('==> Epoch: {} Average lossD: {:.10f} average_lossG: {:.10f},average D(x): {:.10f},average D(G(z)): {:.10f} '.format(
@@ -623,13 +648,14 @@ def training(epochs, lrD, lrG, p_invert, batch_size, nz, lambda1, lambda2, train
 
       # Save pch results
       np.save('kl_train.npy',kl_list)
-      np.save('real_pch_train.npy', real_pch_list)
-      np.save('gen_pch_train.npy', gen_pch_list)
+      np.save('real_pch_train.npy', real_pch_avg_list)
+      np.save('gen_pch_train.npy', gen_pch_avg_list)
 
       # do checkpointing
       torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % ('../models', epoch))
       torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % ('../models', epoch))
-      
+  
+  print('Training complete, Kullback-Leibler between real and generated data: %.4f' %(kl))      
       
  
       
@@ -649,6 +675,7 @@ def testing(nz, test_data, state_dict, attention, device, epsilon, pch):
   '''
 
   pitch_range = 128
+  is_train = False
 
   print('Starting testing \n')
 
@@ -657,8 +684,11 @@ def testing(nz, test_data, state_dict, attention, device, epsilon, pch):
   batch_size = 8
   n_bars = 7
 
-  list_real_pch = []
-  list_gen_pch = []
+  list_real_pch_1 = []
+  list_gen_pch_1 = []
+  list_real_pch_2 = []
+  list_gen_pch_2 = []
+  lists = [list_real_pch_1,list_gen_pch_1,list_real_pch_2,list_gen_pch_2]
 
   netG_sampling = sampling(pitch_range).to(device)
 
@@ -675,7 +705,7 @@ def testing(nz, test_data, state_dict, attention, device, epsilon, pch):
   for d_count in range(0, data_max, batch_songs):  # step
 
       if (d_count % 1000)==0 or (d_count==data_max):
-        print('Songs generated -----> [%d/%d]' % (d_count, data_max))
+        print('Songs generated ----> [%d/%d]' % (d_count, data_max))
 
       curr_x = dataset[(d_count):(batch_songs + d_count), :, :, :]
       list_song = []
@@ -703,20 +733,30 @@ def testing(nz, test_data, state_dict, attention, device, epsilon, pch):
 
       output_songs.append(gen_song)
       # Evaluate pch
+      # For testing: it makes sense to evaluate pch in the first half and second half of the song separately
+      # to understande better how fast the song degenerates as it goes further away from the real seed bar
       if pch:
-        pch_metric(gen_song, real_song, epsilon, list_real_pch, list_gen_pch)
+        pch_metric(gen_song, real_song, epsilon, lists, is_train)
 
   if pch:    
-    avg_real_pch = np.mean(list_real_pch, axis=0)
-    avg_gen_pch = np.mean(list_gen_pch, axis=0)
-    kl = kl_divergence(avg_real_pch, avg_gen_pch, epsilon)
-    np.save('real_pch_test.npy', avg_real_pch)
-    np.save('gen_pch_test.npy', avg_gen_pch)
-    np.save('kl_test.npy', kl)
+    avg_real_pch_1 = np.mean(list_real_pch_1, axis=0)
+    avg_gen_pch_1 = np.mean(list_gen_pch_1, axis=0)
+    avg_real_pch_2 = np.mean(list_real_pch_2, axis=0)
+    avg_gen_pch_2 = np.mean(list_gen_pch_2, axis=0)
+    
+    kl_1 = kl_divergence(avg_real_pch_1, avg_gen_pch_1, epsilon)
+    kl_2 = kl_divergence(avg_real_pch_2, avg_gen_pch_2, epsilon)
+    kl = np.array([kl_1,kl_2])
+    
+    np.save('real_pch_test_1.npy', avg_real_pch_1)
+    np.save('gen_pch_test_1.npy', avg_gen_pch_1)
+    np.save('real_pch_test_2.npy', avg_real_pch_2)
+    np.save('gen_pch_test_2.npy', avg_gen_pch_2)
+    np.save('kl_test_12.npy', kl)
 
   
   print('Testing completed, songs created: {}'.format(len(output_songs)))
-  print('KL divergence for generated songs on test set: {}'.format(kl))
+  print('KL divergences for generated songs on test set: %.4f on first half,  %.4f on second half'%(kl_1,kl_2))
   return(output_songs, kl)
 
   
