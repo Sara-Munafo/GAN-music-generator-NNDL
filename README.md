@@ -17,7 +17,7 @@ An implementation of a Music generator through Generative Adversarial network, f
 # Colab
 
 **COMPLETE with libraries (autoenc_model.py, gan_model.py)** : https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
-
+**diagramma** https://docs.google.com/drawings/d/164SROfcnHE3tQ2bffMIW8DdHqYKbzCQ1ZhQqXNy6rtc/edit?usp=sharing
 --- 
 
 Autoencoder: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
