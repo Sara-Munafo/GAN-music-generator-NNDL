@@ -14,6 +14,9 @@ An implementation of a Music generator through Generative Adversarial network, f
 - [x] provare a fare recontruction loss anche con il training dataset;
 - [ ] grafici pch;
 
+# Excel human evaluation
+https://docs.google.com/spreadsheets/d/1riGOAVK5oGD6kHRmNW_9Ac8J0PnNvr05ityVzDi17eM/edit?usp=sharing
+
 # Colab
 
 **COMPLETE with libraries (autoenc_model.py, gan_model.py)** : https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
