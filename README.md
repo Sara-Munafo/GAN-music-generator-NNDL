@@ -16,6 +16,7 @@ An implementation of a Music generator through Generative Adversarial network, f
 
 # (NEW) Excel human evaluation + link to the plot
 https://colab.research.google.com/drive/13Xd4dlbJPiKC-uwzge-IZ0ghvE_di7ut?usp=sharing
+
 https://docs.google.com/spreadsheets/d/1riGOAVK5oGD6kHRmNW_9Ac8J0PnNvr05ityVzDi17eM/edit?usp=sharing
 
 # Colab
