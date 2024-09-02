@@ -14,14 +14,14 @@ An implementation of a Music generator through Generative Adversarial network, f
 - [x] provare a fare recontruction loss anche con il training dataset;
 - [ ] grafici pch;
 
-# Excel human evaluation
+# (NEW) Excel human evaluation + link to the plot
+https://colab.research.google.com/drive/13Xd4dlbJPiKC-uwzge-IZ0ghvE_di7ut?usp=sharing
 https://docs.google.com/spreadsheets/d/1riGOAVK5oGD6kHRmNW_9Ac8J0PnNvr05ityVzDi17eM/edit?usp=sharing
 
 # Colab
+https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
+diagramma -->  https://docs.google.com/drawings/d/164SROfcnHE3tQ2bffMIW8DdHqYKbzCQ1ZhQqXNy6rtc/edit?usp=sharing
 
--
-COMPLETE with libraries (autoenc_model.py, gan_model.py): https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
-diagramma https://docs.google.com/drawings/d/164SROfcnHE3tQ2bffMIW8DdHqYKbzCQ1ZhQqXNy6rtc/edit?usp=sharing
 --- 
 
 Autoencoder: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
