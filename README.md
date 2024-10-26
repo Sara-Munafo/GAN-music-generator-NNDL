@@ -33,7 +33,8 @@ The repository contains:
     -  a few samples from the generated midi files with self-attention (*Sampled songs*)
 - The LateX report: "*Isotton_Munafo_Attention_Midinet.pdf"
 
-Getting started
+
+### Getting started
 To get started, create an Anaconda environment called attention_midinet, clone repo and install the dipendency:
 
 ```bash
