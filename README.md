@@ -15,7 +15,7 @@ of metrics we are able to evaluate the impact of self-attention layers in the tr
 We worked on a reduced version onf the LAKH dataset (https://colinraffel.com/projects/lmd).
 
 <div align="center">
-  <img src="gen_test_clusterplot_att_2.png.png" alt="Latent space representation" width="400"/>
+  <img src="gen_test_clusterplot_att_2.png.png" alt="Latent space representation" width="600"/>
   <p><em>Latent space representation of the training song and the generated one, through PCA</em></p>
 </div>
 
@@ -44,3 +44,10 @@ gh repo clone Sara-Munafo/GAN-music-generator-NNDL
 pip install -r requirements.txt
 ```
 then run the jupyter notebook.
+
+### Requirements
+[Tensorflow 0.12](https://github.com/tensorflow/tensorflow/tree/r0.12)
+[python-midi](https://github.com/vishnubob/python-midi)
+
+### Aknowledgments
+ We thanks the author of the paper [MdidNet : A Convolutional Generative Adversarial Network for Symbolic-domain Music Generation](https://arxiv.org/abs/1703.10847) for their work.
