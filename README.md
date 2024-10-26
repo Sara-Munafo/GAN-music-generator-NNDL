@@ -1,18 +1,27 @@
 # GAN-music-generator-NNDL
 
 
-<h2 align="center">
-  <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXYyeGl3MzR3aWJydjk4N3dhbXU4anViaXFvOTh4ODlxYjA1aHJ1eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tqfS3mgQU28ko/giphy.gif", width="250">
-</h2>
+%<h2 align="center">
+  %<img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXYyeGl3MzR3aWJydjk4N3dhbXU4anViaXFvOTh4ODlxYjA1aHJ1eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tqfS3mgQU28ko/giphy.gif", width="250">
+%</h2>
 
 
-An implementation of a Music generator through Generative Adversarial network, for the final project of the course Neural Networks and Deep Learning of the Master's Degree in Physics of Data at University of Padua.    
+An implementation of a Music generator through Generative Adversarial network, for the final project of the course Neural Networks and Deep Learning of the Master's Degree in Physics of Data at University of Padua. 
 
-# To-Do List
-- [ ] tune hyperparameters: lr, lambda, self att si/no (https://github.com/heykeetae/Self-Attention-GAN + https://arxiv.org/pdf/1805.08318);
-- [ ] vedere se la seconda metrica da risultatai decenti graficamente;
-- [x] provare a fare recontruction loss anche con il training dataset;
-- [ ] grafici pch;
+In this project, we explore the use of Convolutional Neural Networks (CNNs) within a Generative Adversarial Network (GAN) framework to generate sequences of MIDI notes one bar at a time.
+The base model is inspired by     , but we propose the addition of a self-attention mechanism in the GAN architecture, which allows attention-driven, long-range dependency modeling of the song bars, enabling the model to capture more complexrelationships within the music.
+We also propose two quantitative metrics for melody quality evaluation, one focused on the note frequency distribution, the other, more general, leverages embeddings from a pre-trained autoencoder. Through this set
+of metrics we are able to evaluate the impact of self-attention layers in the training phase, showing an increase in similarity between real and generated data.    
+
+The repository contains:
+- The main jupyter notebook, with the full code implementation;
+- Three python libraries we implemented, to be used in the main notebook: 
+
+    - preprocess_midi.py : is the library containing all the functions needed for the preprocessing of MIDI files; 
+    - gan_model.py : is the library containing everything about the GAN model, from the architecture, to the training and testing function, the functions to generate a new song and convert it into a MIDI file, and the pch metric functions.
+    - autoenc_model.py : is the library containing the autoencoder model, and its training function, used to implement the clustering and reconstruction loss.
+
+
 
 # (NEW) Excel human evaluation + link to the plot
 https://colab.research.google.com/drive/13Xd4dlbJPiKC-uwzge-IZ0ghvE_di7ut?usp=sharing
