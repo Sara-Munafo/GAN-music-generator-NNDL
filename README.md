@@ -50,8 +50,8 @@ then run the jupyter notebook.
 [python-midi](https://github.com/vishnubob/python-midi)
 
 ### Contacts
-Isotton Gloria [mail](gloria.isotton@studenti.unipd.it)
-Sara Munafò [mail](sara.munafo@studenti.unipd.it)
+- Isotton Gloria [Isotton](gloria.isotton@studenti.unipd.it)
+- Sara Munafò [Munafò](sara.munafo@studenti.unipd.it)
 
 ### Aknowledgments
  We thanks the author of the paper [MdidNet : A Convolutional Generative Adversarial Network for Symbolic-domain Music Generation](https://arxiv.org/abs/1703.10847) for their work.
