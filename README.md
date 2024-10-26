@@ -33,3 +33,13 @@ The repository contains:
     -  a few samples from the generated midi files with self-attention (*Sampled songs*)
 - The LateX report: "*Isotton_Munafo_Attention_Midinet.pdf"
 
+Getting started
+To get started, create an Anaconda environment called attention_midinet, clone repo and install the dipendency:
+
+```bash
+conda create -n attention_midinet python=3.8
+conda activate attention_midinet
+gh repo clone Sara-Munafo/GAN-music-generator-NNDL
+pip install -r requirements.txt
+```
+then run the jupyter notebook.
