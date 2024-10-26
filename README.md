@@ -49,5 +49,9 @@ then run the jupyter notebook.
 [Tensorflow 0.12](https://github.com/tensorflow/tensorflow/tree/r0.12)
 [python-midi](https://github.com/vishnubob/python-midi)
 
+### Contacts
+Isotton Gloria [mail](gloria.isotton@studenti.unipd.it)
+Sara Munafò [mail](sara.munafo@studenti.unipd.it)
+
 ### Aknowledgments
  We thanks the author of the paper [MdidNet : A Convolutional Generative Adversarial Network for Symbolic-domain Music Generation](https://arxiv.org/abs/1703.10847) for their work.
