@@ -12,34 +12,18 @@ In this project, we explore the use of Convolutional Neural Networks (CNNs) with
 The base model is inspired by the Yang et. al paper of 2017 "MidiNet: A Convolutional Generative Adversarial Network for Symbolic-domain Music Generation" (arXiv:1703.10847), but we propose the addition of a self-attention mechanism in the GAN architecture, which allows attention-driven, long-range dependency modeling of the song bars, enabling the model to capture more complexrelationships within the music.
 We also propose two quantitative metrics for melody quality evaluation, one focused on the note frequency distribution, the other, more general, leverages embeddings from a pre-trained autoencoder. Through this set
 of metrics we are able to evaluate the impact of self-attention layers in the training phase, showing an increase in similarity between real and generated data.    
+We worked on a reduced version onf the LAKH dataset (https://colinraffel.com/projects/lmd).
 
 The repository contains:
-- The main jupyter notebook, with the full code implementation;
+- **Attention_MidiNet.ipynb** : the main jupyter notebook, with the full code implementation;
 - Three python libraries we implemented, to be used in the main notebook: 
 
-    - preprocess_midi.py : is the library containing all the functions needed for the preprocessing of MIDI files; 
-    - gan_model.py : is the library containing everything about the GAN model, from the architecture, to the training and testing function, the functions to generate a new song and convert it into a MIDI file, and the pch metric functions.
-    - autoenc_model.py : is the library containing the autoencoder model, and its training function, used to implement the clustering and reconstruction loss.
+    - **preprocess_midi.py** : is the library containing all the functions needed for the preprocessing of MIDI files; 
+    - **gan_model.py** : is the library containing everything about the GAN model, from the architecture, to the training and testing function, the functions to generate a new song and convert it into a MIDI file, and the pch metric functions.
+    - **autoenc_model.py** : is the library containing the autoencoder model, and its training function, used to implement the clustering and reconstruction loss ("*autoencoder.pch*" is the state of the pretrained autoencoder to load for the autoencoder metric).
 - The directories containing:
-    -  the (preprocessed) training midi files
-    -  the generated midi files without self-attention
-    -  the generated midi files with self-attention
+    -  a few samples from the (preprocessed) training midi files (*Melody from training set*)
+    -  a few samples from the generated midi files without self-attention (*Sampled_songs_noattention*)
+    -  a few samples from the generated midi files with self-attention (*Sampled songs*)
+- The LateX report: "*Isotton_Munafo_Attention_Midinet.pdf"
 
-
-# (NEW) Excel human evaluation + link to the plot
-https://colab.research.google.com/drive/13Xd4dlbJPiKC-uwzge-IZ0ghvE_di7ut?usp=sharing
-
-https://docs.google.com/spreadsheets/d/1riGOAVK5oGD6kHRmNW_9Ac8J0PnNvr05ityVzDi17eM/edit?usp=sharing
-
-# Colab
-https://colab.research.google.com/drive/1ZkgJVSV-4dyn1gbTx5fi6Sq11rhaVGTW?authuser=0#scrollTo=IDLgv01-u9E7
-diagramma -->  https://docs.google.com/drawings/d/164SROfcnHE3tQ2bffMIW8DdHqYKbzCQ1ZhQqXNy6rtc/edit?usp=sharing
-
---- 
-
-Autoencoder: https://colab.research.google.com/drive/1tk_-86cuKZ4Ivxn56XGBGsZQ67eylMC9?usp=sharing
-
----
-
-# Overleaf report
-https://www.overleaf.com/1897935423tbfwqsgqbtfy#f01106
