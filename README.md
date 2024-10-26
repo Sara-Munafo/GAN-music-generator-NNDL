@@ -15,7 +15,7 @@ of metrics we are able to evaluate the impact of self-attention layers in the tr
 We worked on a reduced version onf the LAKH dataset (https://colinraffel.com/projects/lmd).
 
 <div align="center">
-  <img src="gen_test_clusterplot_att_2.png.png" alt="Latent space representation" width="200"/>
+  <img src="gen_test_clusterplot_att_2.png.png" alt="Latent space representation" width="400"/>
   <p><em>Latent space representation of the training song and the generated one, through PCA</em></p>
 </div>
 
